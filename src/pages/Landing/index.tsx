@@ -1,26 +1,25 @@
 import { type JSX } from 'react';
+import ButtonText from '../../components/ButtonText';
+import { useNavigate } from 'react-router';
 
 export function Landing(): JSX.Element {
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate('/home');
+    }
+
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="text-center">
-                <h1 className="font-bold text-gray-900 mb-4">
+        <div className="min-h-dvh flex items-center justify-center px-8">
+            <div className="flex flex-col text-center gap-4">
+                <h1 className="font-semibold text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-text">
                     Insights & Learning
                 </h1>
-                <p className="text-xl text-gray-600 mb-8">
-                    Bem-vindo ao seu blog de tecnologia
+                <p className="text-base mx-6 md:text-lg lg:text-xl xl:text-2xl text-text">
+                    Explorando tendências Tech, um post por vez
                 </p>
-                <div className="space-x-4">
-                    <a
-                        href="/login"
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
-                        Entrar
-                    </a>
-                    <a
-                        href="/home"
-                        className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700">
-                        Ver Posts
-                    </a>
+                <div className="w-1/2 mx-auto">
+                    <ButtonText onClick={handleClick} text="Começar a ler" />
                 </div>
             </div>
         </div>
