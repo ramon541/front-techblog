@@ -1,94 +1,88 @@
-import { type JSX, useState } from 'react';
+import { type JSX } from 'react';
 import { Navigate } from 'react-router';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { toast } from 'react-toastify';
+
+import { useGlobalStore } from '../../storage/useGlobalStorage';
 import { useAuth } from '../../providers/auth/useAuth';
+import InputWithError from '../../components/inputs/InputWithError';
+import ButtonText from '../../components/buttons/ButtonText';
+import Input from '../../components/inputs/Input';
+import { loginSchema, type TLoginFormFields } from '../../schemas/LoginSchema';
+import { login } from '../../services';
 
 export function Login(): JSX.Element {
-    const { login, isAuthenticated } = useAuth();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+    } = useForm<TLoginFormFields>({ resolver: zodResolver(loginSchema) });
 
-    if (isAuthenticated) {
-        return <Navigate to="/home" replace />;
-    }
+    const { setUser } = useGlobalStore();
+    const { isAuthenticated } = useAuth();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
+    //= =================================================================================
+    if (isAuthenticated) return <Navigate to="/home" replace />;
 
+    //= =================================================================================
+    const onSubmit: SubmitHandler<TLoginFormFields> = async (data) => {
         try {
-            // Simula uma chamada de API
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const { data: userData, message } = await login({
+                email: data.email,
+                password: data.password,
+            });
 
-            // Mock de usuário para demonstração
-            const mockUser: IUser = {
-                id: '1',
-                name: 'Usuário Teste',
-                email: email,
-                password: '', // Nunca armazene senhas no frontend
-                avatar: null,
-                deletedAt: null,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            };
-
-            login(mockUser);
+            toast.success(message);
+            setUser(userData);
+            reset();
         } catch (error) {
-            console.error('Erro no login:', error);
-        } finally {
-            setIsLoading(false);
+            const errorMessage =
+                (error as IApiErrorResponse)?.error ||
+                'Servidor indisponível no momento!';
+            toast.error(`Erro ao fazer login: ${errorMessage}`);
         }
     };
 
+    //= =================================================================================
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-            <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-2xl font-bold text-center text-gray-900 mb-6">
-                    Login
+        <div className="h-dvh flex items-center justify-center flex-col text-center px-8">
+            <div className="w-full sm:w-3/4 lg:w-2/5 flex flex-col gap-4">
+                <h2 className="font-semibold text-3xl text-text">
+                    Bem-vindo de volta! 😁
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700">
-                            Email
-                        </label>
-                        <input
-                            type="email"
+                <form
+                    className="w-full flex flex-col gap-4"
+                    onSubmit={handleSubmit(onSubmit)}>
+                    <InputWithError
+                        label="E-mail"
+                        errorMessage={errors.email?.message}>
+                        <Input
                             id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="seu@email.com"
-                            required
+                            placeholder="E-mail"
+                            {...register('email')}
                         />
-                    </div>
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700">
-                            Senha
-                        </label>
-                        <input
+                    </InputWithError>
+
+                    <InputWithError
+                        label="Senha"
+                        errorMessage={errors.password?.message}>
+                        <Input
                             type="password"
                             id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="••••••••"
-                            required
+                            placeholder="Senha"
+                            {...register('password')}
                         />
-                    </div>
-                    <button
+                    </InputWithError>
+
+                    <ButtonText
                         type="submit"
-                        disabled={isLoading}
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
-                        {isLoading ? 'Entrando...' : 'Entrar'}
-                    </button>
+                        text={isSubmitting ? 'Logando...' : 'Entrar'}
+                        disabled={isSubmitting}
+                        className="w-full"
+                    />
                 </form>
-                <div className="mt-4 text-sm text-gray-600 text-center">
-                    <p>Para teste, use qualquer email e senha válidos</p>
-                </div>
             </div>
         </div>
     );

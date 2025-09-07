@@ -1,10 +1,13 @@
 import ReactQueryProvider from './ReactQueryProvider';
 import RouterProvider from './RouterProvider';
+import ToastProvider from './ToastProvider';
 
 export default function Providers() {
     return (
         <ReactQueryProvider>
-            <RouterProvider />
+            <ToastProvider>
+                <RouterProvider />
+            </ToastProvider>
         </ReactQueryProvider>
     );
 }

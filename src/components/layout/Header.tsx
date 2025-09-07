@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router';
 import { useAuth } from '../../providers/auth';
+import ButtonIcon from '../buttons/ButtonIcon';
 
 export function Header() {
-    const { isAuthenticated } = useAuth();
+    const { logout, isAuthenticated } = useAuth();
     const location = useLocation();
 
     return (
-        <header className="bg-white border-b border-b-border">
+        <header className="w-full top-0 bg-white border-b border-b-border absolute">
             <div className="max-w-dvw px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <Link to="/" className="flex items-center">
@@ -17,9 +18,7 @@ export function Header() {
 
                     <nav className="flex items-center space-x-6">
                         {isAuthenticated ? (
-                            <div className="flex items-center space-x-4">
-                                Alterar
-                            </div>
+                            <ButtonIcon icon="logout" onClick={logout} />
                         ) : (
                             location.pathname !== '/login' && (
                                 <Link

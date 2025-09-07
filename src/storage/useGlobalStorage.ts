@@ -6,7 +6,7 @@ export const useGlobalStore = create<IGlobalState>()(
     persist(
         (set) => ({
             user: null,
-            setUser: (newUser: IUser | null) => set({ user: newUser }),
+            setUser: (newUser) => set({ user: newUser }),
         }),
         {
             name: 'global-storage',
