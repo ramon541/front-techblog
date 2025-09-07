@@ -18,11 +18,3 @@ export async function requestApi<T>(config: {
 
     return response.data;
 }
-
-//= =================================================================================
-export const login = async (data: ILoginPayload) =>
-    await requestApi<TLoginResponse>({
-        method: 'post',
-        endpoint: '/api/auth/login',
-        data,
-    });

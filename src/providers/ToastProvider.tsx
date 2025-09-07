@@ -7,7 +7,7 @@ export default function ToastProvider({
     return (
         <>
             {children}
-            <ToastContainer />
+            <ToastContainer limit={3} autoClose={2000} />
         </>
     );
 }

@@ -1,8 +1,11 @@
 import type { JSX } from 'react';
 
+import Wrapper from '../../components/layout/Wrapper';
+
+//= =================================================================================
 export function ArticleCreate(): JSX.Element {
     return (
-        <div className="min-h-dvh">
+        <Wrapper>
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <form className="bg-white rounded-lg shadow p-8 space-y-6">
                     <div>
@@ -45,6 +48,6 @@ export function ArticleCreate(): JSX.Element {
                     </div>
                 </form>
             </main>
-        </div>
+        </Wrapper>
     );
 }

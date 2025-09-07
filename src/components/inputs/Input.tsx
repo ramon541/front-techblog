@@ -1,9 +1,11 @@
+import type { JSX } from 'react';
 import clsx from 'clsx';
 
+//= =================================================================================
 export default function Input({
     className,
     ...rest
-}: React.InputHTMLAttributes<HTMLInputElement>) {
+}: React.InputHTMLAttributes<HTMLInputElement>): JSX.Element {
     return (
         <input
             {...rest}

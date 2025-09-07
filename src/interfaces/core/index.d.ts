@@ -33,13 +33,9 @@ interface IArticle {
     id: string;
     title: string;
     content: string;
-    image?: string;
+    image?: string | null;
     authorId: string;
+    deletedAt: string | null;
     createdAt: string;
     updatedAt: string;
-
-    // Relations
-    author?: IUser;
-    tags?: ITag[];
-    comments?: IComment[];
 }

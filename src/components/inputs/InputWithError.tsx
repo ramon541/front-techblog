@@ -1,18 +1,20 @@
-import type { PropsWithChildren } from 'react';
+import type { JSX, PropsWithChildren } from 'react';
 
 import InputBase, { type IInputBaseProps } from './InputBase';
 
+//= =================================================================================
 export interface IInputWithErrorProps
     extends PropsWithChildren,
         IInputBaseProps {
     errorMessage?: string;
 }
 
-function InputWithError({
+//= =================================================================================
+export default function InputWithError({
     label,
     children,
     errorMessage,
-}: IInputWithErrorProps) {
+}: IInputWithErrorProps): JSX.Element {
     return (
         <div>
             <InputBase label={label}>{children}</InputBase>
@@ -26,5 +28,3 @@ function InputWithError({
         </div>
     );
 }
-
-export default InputWithError;

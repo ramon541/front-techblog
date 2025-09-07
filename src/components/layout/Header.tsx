@@ -1,14 +1,17 @@
+import type { JSX } from 'react';
 import { Link, useLocation } from 'react-router';
+
 import { useAuth } from '../../providers/auth';
 import ButtonIcon from '../buttons/ButtonIcon';
 
-export function Header() {
+//= =================================================================================
+export function Header(): JSX.Element {
     const { logout, isAuthenticated } = useAuth();
     const location = useLocation();
 
     return (
         <header className="w-full top-0 bg-white border-b border-b-border absolute">
-            <div className="max-w-dvw px-4 sm:px-6 lg:px-8">
+            <div className="max-w-dvw px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <Link to="/" className="flex items-center">
                         <h1 className="text-lg font-bold text-text">

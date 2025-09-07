@@ -1,37 +1,136 @@
-import { type JSX } from 'react';
+import { useEffect, useState, type JSX } from 'react';
+import { useNavigate } from 'react-router';
 
+import { useGetTagsQuery } from '../../services/tag.service';
+import { useSearchArticlesQuery } from '../../services/article.service';
+
+import ButtonText from '../../components/buttons/ButtonText';
+import PageTitle from '../../components/texts/PageTitle';
+import Wrapper from '../../components/layout/Wrapper';
+import Input from '../../components/inputs/Input';
+import InputBase from '../../components/inputs/InputBase';
+import Tag from '../../components/tags/Tag';
+import TagSkeleton from '../../components/tags/TagSkeleton';
+import { useDebounce } from '../../hooks/useDebounce';
+import CardArticle from '../../components/cards/CardArticle';
+import Pagination from '../../components/layout/Pagination';
+import CardArticleSkeleton from '../../components/cards/CardArticleSkeleton';
+import { useAuth } from '../../providers/auth';
+
+//= =================================================================================
 export function Home(): JSX.Element {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    const [filterState, setFilterState] = useState<{
+        search: string | null;
+        tagId: string | null;
+    }>({
+        search: null,
+        tagId: null,
+    });
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const debouncedSearch = useDebounce(filterState.search, 1000);
+    const debouncedTagId = useDebounce(filterState.tagId, 1000);
+
+    const { data: tags, isLoading: isLoadingTags } = useGetTagsQuery();
+    const { data: articlesData, isLoading: isLoadingArticles } =
+        useSearchArticlesQuery({
+            tagId: debouncedTagId,
+            term: debouncedSearch,
+            page: currentPage,
+            limit: 6,
+        });
+
+    //= =================================================================================
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [debouncedSearch, debouncedTagId]);
+
+    //= =================================================================================
+    function handleTagClick(tagId: string) {
+        if (filterState.tagId === tagId)
+            setFilterState({ ...filterState, tagId: null });
+        else setFilterState({ ...filterState, tagId });
+    }
+
+    //= =================================================================================
+    function handleNewArticleClick() {
+        navigate('/articles/new');
+    }
+
+    //= =================================================================================
     return (
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                Posts Recentes
-            </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <div className="bg-white rounded-lg shadow p-6">
-                    <h3 className="text-xl font-semibold mb-2">
-                        Post de Exemplo
-                    </h3>
-                    <p className="text-gray-600 mb-4">
-                        Esta é uma descrição de exemplo para um post do blog...
-                    </p>
-                    <a
-                        href="/articles/1"
-                        className="text-blue-600 hover:text-blue-800">
-                        Ler mais →
-                    </a>
-                </div>
-                <div className="bg-white rounded-lg shadow p-6">
-                    <h3 className="text-xl font-semibold mb-2">Outro Post</h3>
-                    <p className="text-gray-600 mb-4">
-                        Mais um exemplo de post interessante sobre tecnologia...
-                    </p>
-                    <a
-                        href="/articles/2"
-                        className="text-blue-600 hover:text-blue-800">
-                        Ler mais →
-                    </a>
-                </div>
+        <Wrapper>
+            <div className="flex flex-col gap-4 md:flex-row justify-between">
+                <PageTitle title="Todos os artigos" />
+                {isAuthenticated && (
+                    <ButtonText
+                        text="Criar artigo"
+                        onClick={handleNewArticleClick}
+                    />
+                )}
             </div>
-        </main>
+            <InputBase>
+                <Input
+                    placeholder="Pesquisar"
+                    onChange={(e) =>
+                        setFilterState({
+                            ...filterState,
+                            search: e.target.value,
+                        })
+                    }
+                />
+            </InputBase>
+            <div className="flex gap-2 flex-wrap">
+                {isLoadingTags ? (
+                    <TagSkeleton />
+                ) : (
+                    tags?.data.map((tag) => (
+                        <Tag
+                            key={tag.id}
+                            tagId={tag.id}
+                            size="medium"
+                            name={tag.name}
+                            isSelected={filterState.tagId === tag.id}
+                            onClick={handleTagClick}
+                        />
+                    ))
+                )}
+            </div>
+
+            <div className="flex flex-col gap-6 w-full">
+                {isLoadingArticles ? (
+                    <CardArticleSkeleton count={6} />
+                ) : (
+                    <div className="flex flex-col gap-6 w-full">
+                        {articlesData?.data?.items?.map((article) => (
+                            <div key={article.id}>
+                                <CardArticle
+                                    articleId={article.id}
+                                    authorId={article.authorId}
+                                    content={article.content}
+                                    image={article.image}
+                                    tags={article.tags}
+                                    title={article.title}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {articlesData?.data.meta &&
+                !isLoadingArticles &&
+                articlesData.data.items.length > 0 && (
+                    <Pagination
+                        currentPage={articlesData?.data.meta.page}
+                        totalPages={articlesData?.data.meta.totalPages}
+                        onPageChange={setCurrentPage}
+                        className="mt-4 mb-8"
+                    />
+                )}
+        </Wrapper>
     );
 }

@@ -10,7 +10,7 @@ import InputWithError from '../../components/inputs/InputWithError';
 import ButtonText from '../../components/buttons/ButtonText';
 import Input from '../../components/inputs/Input';
 import { loginSchema, type TLoginFormFields } from '../../schemas/LoginSchema';
-import { login } from '../../services';
+import { login } from '../../services/auth.service';
 
 export function Login(): JSX.Element {
     const {

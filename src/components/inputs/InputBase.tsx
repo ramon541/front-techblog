@@ -1,16 +1,24 @@
-import type { PropsWithChildren } from 'react';
+import type { JSX, PropsWithChildren } from 'react';
+
 import Card from '../cards/Card';
 
+//= =================================================================================
 export interface IInputBaseProps extends PropsWithChildren {
-    label: string;
+    label?: string;
 }
 
-export default function InputBase({ children, label }: IInputBaseProps) {
+//= =================================================================================
+export default function InputBase({
+    children,
+    label,
+}: IInputBaseProps): JSX.Element {
     return (
         <div className="flex flex-col gap-2">
-            <label className="text-text text-left font-semibold text-base ">
-                {label}
-            </label>
+            {label && (
+                <label className="text-text text-left font-semibold text-base ">
+                    {label}
+                </label>
+            )}
             <Card variant="secondary">{children}</Card>
         </div>
     );
