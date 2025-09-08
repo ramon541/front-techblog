@@ -4,13 +4,14 @@ Uma plataforma moderna de blog focada em tecnologia, construída com React 19, T
 
 ## 📋 Índice
 
--   [Visão Geral](#visão-geral)
--   [Arquitetura e Decisões Técnicas](#arquitetura-e-decisões-técnicas)
--   [Estrutura do Projeto](#estrutura-do-projeto)
--   [Stack Tecnológica](#stack-tecnológica)
--   [Funcionalidades](#funcionalidades)
--   [Instalação e Configuração](#instalação-e-configuração)
--   [Scripts Disponíveis](#scripts-disponíveis)
+-   [Visão Geral](#-visão-geral)
+-   [Arquitetura e Decisões Técnicas](#️-arquitetura-e-decisões-técnicas)
+-   [Estrutura do Projeto](#-estrutura-do-projeto)
+-   [Stack Tecnológica](#️-stack-tecnológica)
+-   [Funcionalidades](#-funcionalidades)
+-   [Instalação e Configuração](#-instalação-e-configuração)
+-   [Scripts Disponíveis](#-scripts-disponíveis)
+-   [Decisões de Performance](#-decisões-de-performance)
 
 ## 🎯 Visão Geral
 
@@ -273,4 +274,13 @@ const queryClient = new QueryClient({
 
 ---
 
-**Desenvolvido com ❤️ usando as melhores práticas do React ecosystem**
+## 👨‍💻 Autor
+
+**Ramon Monteiro** - Desenvolvedor focado em arquitetura de software, clean code e boas práticas de desenvolvimento.
+
+[![GitHub](https://img.shields.io/badge/GitHub-ramon541-black?style=for-the-badge&logo=github)](https://github.com/ramon541)
+[![Email](https://img.shields.io/badge/Email-ramondiasmonteiro@gmail.com-red?style=for-the-badge&logo=gmail)](mailto:ramondiasmonteiro@gmail.com)
+
+---
+
+_Esta documentação reflete as decisões técnicas e arquiteturais tomadas durante o desenvolvimento, servindo como referência para futuras evoluções do projeto._
