@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { requestApi } from './requestApi';
 
 //= =================================================================================
@@ -41,3 +41,25 @@ export const useSearchArticlesQuery = (params: {
         queryKey: ['articles', 'search', params],
         queryFn: () => searchArticles(params),
     });
+
+//= =================================================================================
+const createArticle = async (data: ICreateArticlePayload) =>
+    await requestApi<TCreateArticleResponse>({
+        method: 'post',
+        endpoint: '/api/articles/create',
+        data,
+    });
+
+export const useCreateArticleMutation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationKey: ['articles', 'create'],
+        mutationFn: (data: ICreateArticlePayload) => createArticle(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['articles'],
+            });
+        },
+    });
+};

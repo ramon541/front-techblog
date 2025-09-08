@@ -1,11 +1,8 @@
 import type { JSX } from 'react';
 
-import Wrapper from '../../components/layout/Wrapper';
-
-//= =================================================================================
-export function ArticleCreate(): JSX.Element {
+export function Edit(): JSX.Element {
     return (
-        <Wrapper>
+        <div className="min-h-dvh">
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <form className="bg-white rounded-lg shadow p-8 space-y-6">
                     <div>
@@ -17,8 +14,8 @@ export function ArticleCreate(): JSX.Element {
                         <input
                             type="text"
                             id="title"
+                            defaultValue="Título do Artigo Existente"
                             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-                            placeholder="Digite o título do artigo"
                         />
                     </div>
                     <div>
@@ -30,8 +27,8 @@ export function ArticleCreate(): JSX.Element {
                         <textarea
                             id="content"
                             rows={12}
+                            defaultValue="Conteúdo existente do artigo..."
                             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2"
-                            placeholder="Escreva o conteúdo do seu artigo aqui..."
                         />
                     </div>
                     <div className="flex justify-end space-x-4">
@@ -43,11 +40,11 @@ export function ArticleCreate(): JSX.Element {
                         <button
                             type="submit"
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                            Publicar
+                            Salvar
                         </button>
                     </div>
                 </form>
             </main>
-        </Wrapper>
+        </div>
     );
 }

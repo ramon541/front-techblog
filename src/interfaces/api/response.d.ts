@@ -24,3 +24,5 @@ interface IPaginatedArticles {
 }
 
 type TSearchArticlesResponse = IPaginatedArticles;
+
+type TCreateArticleResponse = IArticle;

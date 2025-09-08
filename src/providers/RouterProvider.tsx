@@ -6,14 +6,7 @@ import {
 
 import { AuthContextProvider, RequireAuth } from './auth';
 import { Layout } from '../components/layout';
-import {
-    Landing,
-    Login,
-    Home,
-    ArticleDetail,
-    ArticleCreate,
-    ArticleEdit,
-} from '../pages';
+import { Landing, Login, Home, Create, Detail, Edit } from '../pages';
 
 //= =================================================================================
 const router = createBrowserRouter([
@@ -27,12 +20,12 @@ const router = createBrowserRouter([
             {
                 path: '/articles',
                 children: [
-                    { path: ':id', element: <ArticleDetail /> },
+                    { path: ':id', element: <Detail /> },
                     {
                         path: 'new',
                         element: (
                             <RequireAuth>
-                                <ArticleCreate />
+                                <Create />
                             </RequireAuth>
                         ),
                     },
@@ -40,7 +33,7 @@ const router = createBrowserRouter([
                         path: ':id/edit',
                         element: (
                             <RequireAuth>
-                                <ArticleEdit />
+                                <Edit />
                             </RequireAuth>
                         ),
                     },

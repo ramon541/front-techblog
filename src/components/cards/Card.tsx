@@ -5,7 +5,7 @@ import clsx from 'clsx';
 export interface ICardProps
     extends PropsWithChildren,
         Omit<React.HTMLAttributes<HTMLDivElement>, 'style'> {
-    variant?: 'primary' | 'secondary';
+    variant?: 'primary' | 'secondary' | 'none';
 }
 
 //= =================================================================================
@@ -18,6 +18,7 @@ export default function Card({
     const variantClasses = {
         primary: 'bg-primary text-white',
         secondary: 'bg-secondary text-text',
+        none: '',
     };
 
     return (
