@@ -35,9 +35,15 @@ export const newArticleSchema = z.object({
     image: z
         .string()
         .optional()
-        .refine((val) => !val || z.url().safeParse(val).success, {
-            message: 'URL da imagem deve ser válida',
-        }),
+        .refine(
+            (val) =>
+                !val ||
+                val.length === 0 ||
+                z.url().optional().safeParse(val).success,
+            {
+                message: 'URL da imagem deve ser válida',
+            }
+        ),
     authorId: z.uuid('ID do autor deve ser um UUID válido'),
     tagIds: z
         .array(z.uuid('ID da tag deve ser um UUID válido'))
@@ -51,4 +57,5 @@ export const newArticleSchema = z.object({
         ),
 });
 
+//= =================================================================================
 export type TNewArticleFormFields = z.infer<typeof newArticleSchema>;

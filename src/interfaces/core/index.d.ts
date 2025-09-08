@@ -20,13 +20,9 @@ interface IComment {
     content: string;
     userId: string;
     articleId: string;
-    parentId?: string;
+    parentId?: string | null;
     createdAt: string;
     updatedAt: string;
-
-    // Relations
-    user?: IUser;
-    replies?: IComment[];
 }
 
 interface IArticle {

@@ -20,6 +20,13 @@ export function Header(): JSX.Element {
                     </Link>
 
                     <nav className="flex items-center space-x-6">
+                        {location.pathname !== '/home' && (
+                            <Link
+                                to="/home"
+                                className="text-primary hover:text-primary-900 transition-colors font-semibold text-sm">
+                                Home
+                            </Link>
+                        )}
                         {isAuthenticated ? (
                             <ButtonIcon icon="logout" onClick={logout} />
                         ) : (

@@ -15,7 +15,7 @@ export default function Paragraph({
 }: IParagraphProps): JSX.Element {
     return (
         <p
-            className={clsx('text-sm text-text-placeholder', className)}
+            className={clsx(className || 'text-sm text-text-placeholder')}
             {...rest}>
             {text}
         </p>

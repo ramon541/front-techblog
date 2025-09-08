@@ -44,13 +44,16 @@ export default function CardArticle({
         <>
             <button
                 onClick={handleClickArticle}
-                className="cursor-pointer p-2 rounded-2xl hover:bg-gray-50 transition-colors">
+                className="w-full cursor-pointer p-2 rounded-2xl hover:bg-gray-50 transition-colors">
                 <div key={articleId} className="flex gap-4 items-center">
                     <Image src={image || ''} />
                     <div className="flex flex-col w-full">
                         <div className="flex items-start justify-between">
                             <div className="flex flex-col gap-1 md:flex-row ">
-                                <H3 text={title} className="line-clamp-1" />
+                                <H3
+                                    text={title}
+                                    className="line-clamp-1 text-left"
+                                />
                                 <div className="flex gap-2 mb-4 flex-wrap">
                                     {tags.map((tag) => (
                                         <Tag
@@ -62,7 +65,6 @@ export default function CardArticle({
                                     ))}
                                 </div>
                             </div>
-                            <div></div>
                         </div>
                         <Paragraph
                             text={content}

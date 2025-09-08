@@ -8,7 +8,7 @@ export default function Image({
 }: ImgHTMLAttributes<HTMLImageElement>): JSX.Element {
     return (
         <img
-            className={clsx('rounded-lg w-14 h-14 object-cover', className)}
+            className={clsx(className || 'rounded-lg w-14 h-14 object-cover')}
             {...props}
         />
     );

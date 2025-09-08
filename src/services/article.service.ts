@@ -63,3 +63,17 @@ export const useCreateArticleMutation = () => {
         },
     });
 };
+
+//= =================================================================================
+const getArticleById = async (articleId: string) =>
+    await requestApi<TGetArticleByIdResponse>({
+        method: 'get',
+        endpoint: `/api/articles/${articleId}`,
+    });
+
+export const useGetArticleByIdQuery = (articleId: string) =>
+    useQuery({
+        queryKey: ['articles', 'detail', articleId],
+        queryFn: () => getArticleById(articleId),
+        enabled: !!articleId,
+    });

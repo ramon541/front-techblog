@@ -26,3 +26,34 @@ interface IPaginatedArticles {
 type TSearchArticlesResponse = IPaginatedArticles;
 
 type TCreateArticleResponse = IArticle;
+
+interface IGetArticleByIdWithRelations extends IArticle {
+    author: {
+        name: string;
+    };
+    tags: Array<{
+        tagId: string;
+        tag: {
+            name: string;
+        };
+    }>;
+}
+
+type TGetArticleByIdResponse = IGetArticleByIdWithRelations;
+
+type TGetUserByIdResponse = IUser;
+
+interface ICommentWithRelations extends IComment {
+    user: {
+        id: string;
+        name: string;
+        avatar: string | null;
+        createdAt?: string;
+        email?: string;
+    };
+    replies?: Array<ICommentWithRelations>;
+}
+
+type TGetCommentsByArticleIdResponse = Array<ICommentWithRelations>;
+
+type TCreateCommentResponse = IComment;
